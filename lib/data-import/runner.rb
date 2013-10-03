@@ -10,7 +10,7 @@ module DataImport
       dependency_resolver = DependencyResolver.new(@plan)
       resolved_plan = dependency_resolver.resolve(:run_only => options[:only])
       resolved_plan.definitions.each do |definition|
-        bar = @progress_reporter.create(:title => definition.name, :total => definition.total_steps_required, format: '%t %p%% %B %e')
+        bar = @progress_reporter.create(:title => definition.name, :total => definition.total_steps_required, format: '%t %p%% %B %e', :output => progress_stream)
 
         DataImport.logger.info "Starting to import \"#{definition.name}\""
         context = ExecutionContext.new(resolved_plan, definition, bar)
@@ -18,6 +18,15 @@ module DataImport
 
         bar.finish
       end
+    end
+
+    def progress_stream
+      begin
+        out = IO.new(3, 'w')
+      rescue Errno::EBADF, ArgumentError
+        out = File.open('/dev/tty', 'w')
+      end
+      out
     end
 
   end
