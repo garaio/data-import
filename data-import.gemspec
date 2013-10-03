@@ -27,6 +27,7 @@ Gem::Specification.new do |s|
   s.add_development_dependency "flog"
   s.add_development_dependency "reek"
   s.add_development_dependency "roodi"
+  s.add_development_dependency "pry"
 
   s.add_runtime_dependency "sequel"
   s.add_runtime_dependency "ruby-progressbar"
