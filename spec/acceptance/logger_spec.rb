@@ -43,7 +43,8 @@ describe 'logger' do
 
     DataImport.run_plan!(plan)
 
-    messages.string.strip.should == "Starting to import \"People\"\nRow {:Name=>\"Jack\", :Gender=>\"m\"} skipped since the gender is male"
+    messages.string.should match /Starting to import \"People\"/
+    messages.string.should match /Row {:Name=>\"Jack\", :Gender=>\"m\"} skipped since the gender is male/
   end
 
 end
