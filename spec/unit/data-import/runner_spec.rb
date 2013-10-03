@@ -4,8 +4,8 @@ describe DataImport::Runner do
 
   let(:mock_progress_class) do
     Class.new do
-      def initialize(name, total_steps); end
-
+      def self.create(args); self.new; end
+      def increment(); end
       def finish; end
     end
   end

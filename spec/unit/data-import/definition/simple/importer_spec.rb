@@ -25,7 +25,7 @@ describe DataImport::Definition::Simple::Importer do
 
       subject.should_receive(:import_row).with(:a => :b)
       subject.should_receive(:import_row).with(:c => :d)
-      progress_reporter.should_receive(:inc).twice
+      progress_reporter.should_receive(:increment).twice
       subject.run
     end
 
