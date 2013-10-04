@@ -9,6 +9,9 @@ module DataImport
     def run(options = {})
       dependency_resolver = DependencyResolver.new(@plan)
       resolved_plan = dependency_resolver.resolve(:run_only => options[:only])
+
+      log_execution_order(resolved_plan)
+
       resolved_plan.definitions.each do |definition|
         bar = @progress_reporter.new(definition.name, definition.total_steps_required)
 
@@ -18,6 +21,14 @@ module DataImport
 
         bar.finish
       end
+    end
+
+    def log_execution_order(resolved_plan)
+      DataImport.logger.info "*** Execution Order ***"
+      resolved_plan.definition_names.each do |name|
+        DataImport.logger.info name
+      end
+      DataImport.logger.info "*** Execution Order (END)***"
     end
 
   end

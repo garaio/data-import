@@ -21,5 +21,9 @@ module DataImport
         raise MissingDefinitionError.new(name)
       end
     end
+
+    def definition_names
+      @definitions.map{|definition| definition.first}
+    end
   end
 end
