@@ -24,7 +24,11 @@ module DataImport
       @progress_stream ||= begin
         IO.new(3, 'w')
       rescue Errno::EBADF, ArgumentError
-        File.open('/dev/tty', 'w')
+        if $stdout.tty?
+          File.open('/dev/tty', 'w')
+        else
+          $stdout
+        end
       end
     end
 
