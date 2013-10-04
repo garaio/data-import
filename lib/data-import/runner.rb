@@ -21,12 +21,11 @@ module DataImport
     end
 
     def progress_stream
-      begin
-        out = IO.new(3, 'w')
+      @progress_stream ||= begin
+        IO.new(3, 'w')
       rescue Errno::EBADF, ArgumentError
-        out = File.open('/dev/tty', 'w')
+        File.open('/dev/tty', 'w')
       end
-      out
     end
 
   end
