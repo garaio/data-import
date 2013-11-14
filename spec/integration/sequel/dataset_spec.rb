@@ -61,4 +61,16 @@ describe DataImport::Sequel::Dataset do
     yielded_ids.should == ['OPEN', 'OPEN', 'PROCESSING', 'DONE', 'DONE']
   end
 
+  it '#count loggs statement in case of error' do
+    important = double('important')
+    DataImport.important_logger = DataImport::Logger.new(important, nil)
+    important.should_receive(:error).with(/.*Error.*FROM `xy`.*/)
+
+    query =  lambda do |db|
+                    db.from(:xy)
+                  end
+
+    expect{described_class.new(connection, query).count}.to raise_error
+  end
+
 end

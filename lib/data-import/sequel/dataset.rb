@@ -18,7 +18,12 @@ module DataImport
       end
 
       def count
-        base_query.count
+        begin
+          base_query.count
+        rescue Exception => exception
+          DataImport.logger.error "*** Error for statement #{base_query.sql} ***"
+          raise
+        end
       end
 
       def base_query
