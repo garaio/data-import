@@ -17,7 +17,7 @@ describe "lookup tables" do
       dependencies 'Articles'
 
       body do
-        new_id = target_database.db[:articles].insert(:slug => definition('Articles').identify_by(:reference, 'ruby-is-awesome'))
+        new_id = target_database[:articles].insert(:slug => definition('Articles').identify_by(:reference, 'ruby-is-awesome'))
 
         definition('Mark ruby article').lookup_for(:sArticleId)
         definition('Mark ruby article').row_imported(new_id, {:sArticleId => 0})
@@ -28,7 +28,7 @@ describe "lookup tables" do
       dependencies 'Mark ruby article'
 
       body do
-        target_database.db[:posts].insert(:id => 11, :article_id => definition('Mark ruby article').identify_by(:sArticleId, 0))
+        target_database[:posts].insert(:id => 11, :article_id => definition('Mark ruby article').identify_by(:sArticleId, 0))
       end
     end
 

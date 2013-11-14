@@ -6,8 +6,7 @@ describe DataImport::Sequel::Postgres::UpdateSequence do
   subject { DataImport::Sequel::InsertWriter.new(connection, table_name) }
 
   before do
-    db = connection.db
-    db.create_table! :cities do
+    connection.create_table! :cities do
       primary_key :id
       String :name
     end
@@ -19,8 +18,8 @@ describe DataImport::Sequel::Postgres::UpdateSequence do
     subject.transaction do
       subject.write_row :id => 18
     end
-    sequence_name = connection.db.primary_key_sequence(table_name)
-    last_value = connection.db.from(sequence_name.lit).select{:last_value}.first[:last_value]
+    sequence_name = connection.primary_key_sequence(table_name)
+    last_value = connection.from(sequence_name.lit).select{:last_value}.first[:last_value]
     last_value.should == 19
   end
 end
