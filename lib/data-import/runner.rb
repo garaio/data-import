@@ -13,9 +13,10 @@ module DataImport
       log_execution_order(resolved_plan)
 
       resolved_plan.definitions.each do |definition|
+        DataImport.logger.info "Starting to import \"#{definition.name}\""
+
         bar = @progress_reporter.new(definition.name, definition.total_steps_required)
 
-        DataImport.logger.info "Starting to import \"#{definition.name}\""
         context = ExecutionContext.new(resolved_plan, definition, bar)
         definition.run context
 
