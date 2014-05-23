@@ -4,9 +4,10 @@ module DataImport
 
       BATCH_SIZE = 1000
 
-      def initialize(connection, base_query_block)
+      def initialize(connection, base_query_block, options={})
         @connection = connection
         @base_query_block = base_query_block
+        @order_by = options[:order_by].is_a?(Array) ? options[:order_by] : options[:order_by] ? [options[:order_by]] : []
       end
 
       def each_row(&block)
@@ -14,7 +15,10 @@ module DataImport
       end
 
       def selection
-        base_query
+        query = base_query
+        # query.order_by() doesn't work with Datasets created from SQL
+        query.opts[:sql] = query.opts[:sql]+"\nORDER BY #{@order_by.join(', ')}\n" if @order_by.size > 0
+        query
       end
 
       def count

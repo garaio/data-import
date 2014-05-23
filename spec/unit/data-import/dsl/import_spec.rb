@@ -26,7 +26,7 @@ describe DataImport::Dsl::Import do
         custom_dataset = lambda { |db| }
 
         reader = stub
-        DataImport::Sequel::Dataset.should_receive(:new).with(source, custom_dataset).and_return(reader)
+        DataImport::Sequel::Dataset.should_receive(:new).with(source, custom_dataset, {}).and_return(reader)
 
         subject.from &custom_dataset
         definition.reader.should == reader

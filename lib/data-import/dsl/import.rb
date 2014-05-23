@@ -13,7 +13,7 @@ module DataImport
 
       def from(table_name = nil, options = {}, &block)
         reader = if block_given?
-                    DataImport::Sequel::Dataset.new(definition.source_database, block)
+                    DataImport::Sequel::Dataset.new(definition.source_database, block, options)
                   else
                     DataImport::Sequel::Table.new(definition.source_database, table_name, options)
                   end

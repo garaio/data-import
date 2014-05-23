@@ -73,4 +73,23 @@ describe DataImport::Sequel::Dataset do
     expect{described_class.new(connection, query).count}.to raise_error
   end
 
+  context 'with order_by options' do
+    let(:query) { lambda do |connection| connection["SELECT * from payments"]; end }
+    subject { described_class.new(connection, query, :order_by => [:amount,:id]) }
+
+    describe '#each_row' do
+      it 'iterates over every row of the table in the specified order' do
+        yielded_ids = []
+        subject.each_row do |row|
+          yielded_ids << row[:id]
+        end
+        yielded_ids.should == [5, 2, 1, 4, 3]
+      end
+    end
+
+    it '#count returns the total amount of records' do
+      subject.count.should == 5
+    end
+  end
+
 end
