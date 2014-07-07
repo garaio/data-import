@@ -52,6 +52,14 @@ task :import do
 end
 ```
 
+You can set the import to fail fast if your definitions contain mapping errors
+like referencing non-existent columns:
+
+```ruby
+  options = { strict_mode: true }
+  DataImport.run_config! mapping_path, options
+```
+
 ## Configuration
 
 data-import provides a clean dsl to define your mappings from the legacy schema to the new one.

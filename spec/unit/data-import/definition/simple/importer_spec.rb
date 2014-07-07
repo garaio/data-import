@@ -7,7 +7,7 @@ describe DataImport::Definition::Simple::Importer do
   let(:other_definition) { DataImport::Definition::Simple.new 'C', source, target }
   let(:definition) { DataImport::Definition::Simple.new 'A', source, target }
   let(:progress_reporter) { mock('ProgressReporter') }
-  let(:context) { mock('Context', :name => 'A', :progress_reporter => progress_reporter) }
+  let(:context) { mock('Context', :name => 'A', :progress_reporter => progress_reporter, :strict_mode => false) }
   before { context.stub(:definition).with('C').and_return(other_definition) }
   subject { described_class.new(context, definition) }
 

@@ -1,11 +1,12 @@
 class ExecutionContext
 
-  attr_reader :progress_reporter
+  attr_reader :progress_reporter, :strict_mode
 
-  def initialize(execution_plan, definition, progress_reporter)
+  def initialize(execution_plan, definition, progress_reporter, strict_mode)
     @execution_plan = execution_plan
     @definition = definition
     @progress_reporter = progress_reporter
+    @strict_mode = strict_mode
   end
 
   def logger
@@ -33,7 +34,7 @@ class ExecutionContext
       @context = context
     end
 
-    [:logger, :definition, :name, :source_database, :target_database].each do |method_symbol|
+    [:logger, :definition, :name, :source_database, :target_database, :strict_mode].each do |method_symbol|
       define_method method_symbol do |*args|
         @context.send(method_symbol, *args)
       end

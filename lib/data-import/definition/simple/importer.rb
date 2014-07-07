@@ -22,6 +22,7 @@ module DataImport
 
         def map_row(context, row)
           mapped_row = {}
+          mapped_row.extend HashWithKeyError if @context.strict_mode
           @definition.mappings.each do |mapping|
             mapping.apply!(@definition, context, row, mapped_row)
           end
@@ -30,6 +31,7 @@ module DataImport
 
         def import_row(row)
           row_context = Context.new(@context)
+          row.extend HashWithKeyError if @context.strict_mode
           row_context.row = row
           mapped_row = map_row(row_context, row)
           row_context.mapped_row = mapped_row

@@ -17,7 +17,7 @@ module DataImport
 
         bar = @progress_reporter.new(definition.name, definition.total_steps_required)
 
-        context = ExecutionContext.new(resolved_plan, definition, bar)
+        context = ExecutionContext.new(resolved_plan, definition, bar, options[:strict_mode])
         definition.run context
 
         bar.finish

@@ -17,6 +17,7 @@ require 'data-import/sequel/postgres/update_sequence'
 require 'data-import/database'
 require 'data-import/definition'
 require 'data-import/logger'
+require 'data-import/hash_with_key_error'
 
 module DataImport
   class << self

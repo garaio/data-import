@@ -9,6 +9,8 @@ module DataImport
       def apply!(_definition, _context, row, output_row)
         if row.has_key?(@from)
           output_row[@to] = row[@from]
+        else
+          raise "#{_definition.name}:key '#{@from}' not in row #{row}" if _definition && _context.strict_mode
         end
       end
     end
