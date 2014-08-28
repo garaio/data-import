@@ -51,7 +51,11 @@ module DataImport
       end
 
       def apply!(definition, context, row, output_row)
-        output_row.merge!(@new_foreign_key => context.definition(@referenced_definition).identify_by(@lookup_name, row[@old_foreign_key]))
+        begin
+          output_row.merge!(@new_foreign_key => context.definition(@referenced_definition).identify_by(@lookup_name, row[@old_foreign_key]))
+        rescue ArgumentError => e
+          raise ArgumentError, "#{@referenced_definition}: #{e.message}"
+        end
       end
     end
 
